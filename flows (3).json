@@ -1,0 +1,254 @@
+[
+    {
+        "id": "dd22ceee567ea557",
+        "type": "tab",
+        "label": "flow final",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "f164bb0c46d4991b",
+        "type": "ui_webcam",
+        "z": "dd22ceee567ea557",
+        "name": "",
+        "group": "7a9abfc92ac51569",
+        "order": 2,
+        "width": 0,
+        "height": 5,
+        "countdown": false,
+        "autoStart": true,
+        "hideCaptureButton": false,
+        "showImage": "2",
+        "mirror": true,
+        "format": "jpeg",
+        "x": 480,
+        "y": 240,
+        "wires": [
+            [
+                "3c6d59a22c8bdf4d",
+                "4f3afbf65adb824b",
+                "ca9ebaefe5ab8165"
+            ]
+        ]
+    },
+    {
+        "id": "bc51bb8a5cc4af8e",
+        "type": "mqtt in",
+        "z": "dd22ceee567ea557",
+        "name": "",
+        "topic": "SensorP1",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "1bcd5b679fce20f8",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 80,
+        "y": 240,
+        "wires": [
+            [
+                "5ba02a7b947d61f1",
+                "da27cec6dc7e5c99"
+            ]
+        ]
+    },
+    {
+        "id": "a2dddd2c48352ca0",
+        "type": "telegram sender",
+        "z": "dd22ceee567ea557",
+        "name": "",
+        "bot": "d45db1fac07b58d0",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 890,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3c6d59a22c8bdf4d",
+        "type": "image",
+        "z": "dd22ceee567ea557",
+        "name": "",
+        "width": 160,
+        "data": "payload",
+        "dataType": "msg",
+        "thumbnail": false,
+        "active": true,
+        "pass": true,
+        "outputs": 1,
+        "x": 680,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4f3afbf65adb824b",
+        "type": "function",
+        "z": "dd22ceee567ea557",
+        "name": "function 16",
+        "func": "msg.payload = {chatId: 6655325566,\n    type: \"photo\",\n    content: msg.payload };\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 670,
+        "y": 240,
+        "wires": [
+            [
+                "a2dddd2c48352ca0"
+            ]
+        ]
+    },
+    {
+        "id": "ecc4b9fe89132ca4",
+        "type": "debug",
+        "z": "dd22ceee567ea557",
+        "name": "debug 8",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 520,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "ca9ebaefe5ab8165",
+        "type": "debug",
+        "z": "dd22ceee567ea557",
+        "name": "debug 9",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 700,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "5ba02a7b947d61f1",
+        "type": "function",
+        "z": "dd22ceee567ea557",
+        "name": "function 24",
+        "func": "// Crear variables para almacenar los valores del sensor y del control remoto\nvar valorsensor = msg.payload.Sensor;\nvar valorcontrol = msg.payload.Control;\n\n// Si el valor del sensor es mayor a 50 y el valor del control remoto es \"4BC6\", tomar una foto\nif (valorsensor > 50 && valorcontrol === \"FF30CF\") {\n  // Crear un mensaje para el nodo ui_webcam\n  var msg = {\n    capture: true\n  };\n\n  // Enviar el mensaje al nodo ui_webcam\n  node.send(msg);\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 290,
+        "y": 240,
+        "wires": [
+            [
+                "ecc4b9fe89132ca4",
+                "f164bb0c46d4991b"
+            ]
+        ]
+    },
+    {
+        "id": "da27cec6dc7e5c99",
+        "type": "debug",
+        "z": "dd22ceee567ea557",
+        "name": "debug 27",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 280,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "7a9abfc92ac51569",
+        "type": "ui_group",
+        "name": "Dashboard fotorresistencia",
+        "tab": "e699b4d289dfe0bf",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "1bcd5b679fce20f8",
+        "type": "mqtt-broker",
+        "name": "ServidorAmazon",
+        "broker": "3.87.135.5",
+        "port": "8080",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "d45db1fac07b58d0",
+        "type": "telegram bot",
+        "botname": "JaviAP16_bot",
+        "usernames": "",
+        "chatids": "",
+        "baseapiurl": "",
+        "updatemode": "polling",
+        "pollinterval": "300",
+        "usesocks": false,
+        "sockshost": "",
+        "socksprotocol": "socks5",
+        "socksport": "6667",
+        "socksusername": "anonymous",
+        "sockspassword": "",
+        "bothost": "",
+        "botpath": "",
+        "localbotport": "8443",
+        "publicbotport": "8443",
+        "privatekey": "",
+        "certificate": "",
+        "useselfsignedcertificate": false,
+        "sslterminated": false,
+        "verboselogging": false
+    },
+    {
+        "id": "e699b4d289dfe0bf",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
